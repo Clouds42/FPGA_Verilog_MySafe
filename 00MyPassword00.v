@@ -1,37 +1,52 @@
 /**********
 *作者:Clouds42
 *日期:2019-10-06
-*功能描述:	1.密码可在代码中更改,默认密码为1001,对应四路拨动开关的状态.
-			2.如果密码正确,按下状态刷新键(key_refresh),检测到密码正确,则亮绿灯(LED_right).
-			3.如果密码不匹配,按下状态刷新键,则亮红灯(LED_wrong).
-*代码特色:	1.在本代码中,只用到了一个状态刷新键,只要检测到按键按下即可,不需要对按键进行消抖处理.
-			2.方便易用,代码简洁明了,便于维护.
+*功能描述:
+*代码特色:
 **********/
 
-module pwd (clk,key_refresh,sw_pwd,LED_right,LED_wrong);
+//MySafe_v1.1
  
-	input clk;//时钟(clock).
-	input key_refresh;//状态刷新.
-	input [3:0] sw_pwd;//开关(switch_password).
-	output LED_right;//密码正确指示灯.
-	output LED_wrong;//密码错误指示灯.
+module pwd(clk,rst,key_cfm,sw_pwd,led);
  
-	parameter password = 4'b1001;//密码为1001,对应四路拨动开关.
+	input clk;//时钟.
+	input rst;//复位.
+	input key_cfm;//确认键.
+	input [3:0] sw_pwd;//四路拨动开关对应四位二进制密码.
+	output [1:0] led;//解锁指示灯.
  
-	reg flag;//储存密码是否正确,0或1.
+	parameter password = 4'b1001;//设置密码.
  
-	always@(posedge clk)//时钟边沿触发.
+	reg sgna,sgnb;//指示灯信号.
+	
+	wire cfm_dbs;//消抖后的确认脉冲.
+ 
+	always @ (posedge clk)//时钟边沿触发.
 	begin
-		if(!key_refresh)//状态刷新.
-			begin
-				if(sw_pwd==password)
-					flag<=1'b0;//密码正确.
-				else
-					flag<=1'b1;//密码错误.
+		if(!rst)begin//复位操作.
+			sgna <= 1'b1;//绿灯灭信号.
+			sgnb <= 1'b1;//红灯灭信号.
+			end
+		else if(cfm_dbs)begin//按下确认键,此处用的消抖后的确认脉冲信号.
+			if(sw_pwd==password)begin//密码正确.
+				sgna <= 1'b0;//绿灯亮信号.
+				sgnb <= 1'b1;//红灯灭信号.
+				end
+			else begin
+				sgna <= 1'b1;//绿灯灭信号.
+				sgnb <= 1'b0;//红灯亮信号.
+				end
 			end
 	end
-	
-	assign LED_right=flag;//密码正确亮绿灯.
-	assign LED_wrong=~flag;//密码错误亮红灯.
+ 
+	assign led[0] = sgna;//绿灯亮或灭.
+	assign led[1] = sgnb;//红灯亮或灭.
+ 
+	debounce u1 (//调用消抖模块.
+		.clk (clk),
+		.rst (rst),
+		.key (key_cfm),
+		.key_pulse (cfm_dbs)
+	);
  
 endmodule
