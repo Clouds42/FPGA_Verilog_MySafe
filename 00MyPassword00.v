@@ -7,7 +7,7 @@ module pwd (rst,sw_pwd,LED_right,LED_wrong,clk,key_confirm);
 	output LED_right;
 	output LED_wrong;
  
-	parameter password = 4'b1001
+	parameter password = 4'b1001;
  
 	reg alert;
 	reg key_pressed;
@@ -17,7 +17,7 @@ module pwd (rst,sw_pwd,LED_right,LED_wrong,clk,key_confirm);
 		if(!rst)
 		begin
 			alert<=1'b0;
-			key_pressed<=1b0;
+			key_pressed<=1'b0;
 		end
 		else if(key_confirm && ~key_pressed)
 		begin
@@ -25,7 +25,7 @@ module pwd (rst,sw_pwd,LED_right,LED_wrong,clk,key_confirm);
 			if(sw_pwd==password)
 				alert<=1'b0;
 			else
-				alert<=ab1;
+				alert<=1'b1;
 		end
 	end
  
