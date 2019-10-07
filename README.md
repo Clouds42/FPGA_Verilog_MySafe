@@ -22,4 +22,7 @@ IDE:Intel Quartus Prime Lite Edition 18.1 集成开发环境.
 几乎每一条语句都有注释,变量名也都规范命名,便于维护和调试,没有冗余代码,每一行都一针见血.
 
 >如果你对我的代码有疑问或者其他什么问题,欢迎给我留言或者发邮件,我都会及时回复的.
+
 >我的邮箱:mr.liujiangyan@gmail.com.
+
+>视频介绍:https://www.bilibili.com/video/av70380195
