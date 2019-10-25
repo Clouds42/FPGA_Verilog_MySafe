@@ -1,10 +1,3 @@
-/****************
-*Author:Clouds42*
-*Date:2019-10-06*
-****************/
- 
-//ButtonDebounce_v1.1
- 
 module debounce (clk,rst,key,key_pulse);
  
 	input clk;//时钟.
@@ -17,12 +10,12 @@ module debounce (clk,rst,key,key_pulse);
  
 	wire key_edge;//检测到按键由高到低变化时产生一个高脉冲.
  
-	always @(posedge clk or negedge rst)
+	always @ (posedge clk or negedge rst)
 		begin
-			if (!rst)//复位操作.
+			if(!rst)
 				begin
 					key_rst_pre <= 1'b1;//初始化为1.
-					key_rst_now <= 1'b1;//初始化为1.
+					key_rst_now <= 1'b1;
 				end
 			else
 				begin
@@ -66,6 +59,6 @@ module debounce (clk,rst,key,key_pulse);
 				key_sec_pre <= key_sec_now;
 		end
  
-	assign key_pulse = key_sec_pre & (~key_sec_now);//消抖完毕,u输出有效脉冲.
+	assign key_pulse = key_sec_pre & (~key_sec_now);//消抖完毕,输出有效脉冲.
  
 endmodule

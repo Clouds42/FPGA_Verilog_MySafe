@@ -1,10 +1,3 @@
-/****************
-*Author:Clouds42*
-*Date:2019-10-06*
-****************/
-
-//MySafe_v1.4
- 
 module pwd(clk,rst,key_cfm,sw_pwd,led,sega,segb);
  
 	input clk;//时钟.
@@ -44,12 +37,12 @@ module pwd(clk,rst,key_cfm,sw_pwd,led,sega,segb);
 			cnt <= 2'b11;//计数器复位到3.
 			lock <= 1'b1;//开锁.
 			end
-		else if(cfm_dbs && lock)begin//按下确认键,此处用的消抖后的脉冲信号.若程序锁已锁,此下代码均不会再执行.
-			if(sw_pwd==password)begin//密码正确.
+		else if(cfm_dbs && lock)begin//按下确认键,此处用的消抖后的脉冲信号.若程序锁已锁,此下代码均不会再被执行.
+			if(sw_pwd == password)begin//密码正确.
 				sgn <= 2'b10;//绿灯亮.
 				seg_data[0] <= 9'h40;//密码输入正确后两根数码管显示两根横线.
-				seg_data[1] <= 9'h40;//因为横线显示只在此处使用,不具有全局性,故没有写入seg数组中.
-				lock <= 0;//程序锁死,除非复位.
+				seg_data[1] <= 9'h40;//因为横线显示只在此处使用,故没有写入seg数组中.
+				lock <= 0;//程序锁死,防止解锁成功后还能进行操作.
 				end
 			else if(cnt == 2'b11)begin
 				sgn <= 2'b01;//红灯亮.
