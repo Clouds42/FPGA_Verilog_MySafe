@@ -23,6 +23,6 @@ IDE:Intel Quartus Prime Lite Edition 18.1 集成开发环境.
 
 >如果你对我的代码有疑问或者其他什么问题,欢迎给我留言或者发邮件,我都会及时回复的.
 
->我的邮箱:mr.liujiangyan@gmail.com.
+>我的邮箱:clouds42@foxmail.com.
 
 >视频介绍:https://www.bilibili.com/video/av70380195
